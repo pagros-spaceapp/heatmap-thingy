@@ -15,4 +15,10 @@
     - final goal is to come up with a score that measures 2 images
 
 * task
-** TODO find common overlapping area in tiff files
+** histogram comparision
+** DONE handle diff nodata value
+** DONE find common overlapping area in tiff files
+** DONE SSIM structure simliarity
+** DONE PSNR signal noise ratio
+** DONE image func - log
+** DONE image func - power fn

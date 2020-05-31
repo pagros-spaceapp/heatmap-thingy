@@ -1,25 +1,33 @@
-import pyproj
-import rasterio
+import os
+import process
 
-img1 = 'data/img1.tif'
-img2 = 'data/img2.tif'
+def get_fname(x):
+    return '.'.join(x.split('/')[-1].split('.')[:-1])
 
-def get_bounds(data):
-    """ return in latlon """
-    if not data.crs.is_valid:
-        raise Exception('data source not valid')
+def listdir(dname):
+    return [f for f in os.listdir(dname) if f.endswith('.tif')]
 
-    bound = data.bounds
-    pt1 = (bound.left, bound.top)
-    pt2 = (bound.right, bound.bottom)
+def mkdir(dname):
+    try: os.makedirs(dname)
+    except FileExistsError: pass
 
-    if data.crs.is_projected:
-        transformer = pyproj.Transformer.from_crs(
-                data.crs.to_proj4(),
-                rasterio.crs.CRS.from_epsg(4326).to_proj4())
-        pt1 = transformer.transform(pt1[0], pt1[1])
-        pt2 = transformer.transform(pt2[0], pt2[1])
-    return tuple([(pt1[i], pt2[i]) for i in range(2)])
+data_covid = 'data'
+data_dnames = [ 'data/human', 'data/nature' ]
+data_result = 'data/results'
 
-data = rasterio.open(img1)
-lons, lats = get_bounds(data)
+def main():
+    covids = listdir(data_covid)
+    for covid in covids:
+        folder = get_fname(covid)
+
+        for dname in data_dnames:
+            rname = f'{data_result}/{folder}/{dname.split("/")[-1]}'
+            mkdir(rname)
+
+            for fname in os.listdir(dname):
+                data = f'{dname}/{fname}'
+
+                oname = f'{rname}/{get_fname(fname)}.tif'
+                process.process(f'{data_covid}/{covid}', f'{dname}/{fname}', oname)
+
+main()
