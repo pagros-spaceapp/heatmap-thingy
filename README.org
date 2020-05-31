@@ -1,0 +1,18 @@
+* notes
+** inspiration
+    *why super res*
+    - so we needa kinda compare image simliarity
+    - the best way to do this is to somehow rate 2 imgs at the same time
+    - intuitively there will be some kinda of loss fn with the 2 imgs as input
+    - then i thought about all the different cases where you have to ensure img looks similar
+    - so there are 2 examples i thought springs to mind
+        - face generation GAN (deepfake) -> loss function to measure img structure simliarity
+        - super res -> compare img 2 img simliarity
+    - the loss fn used in face generation GAN might not be sufficient
+        - only measures difference in features
+    - so i picked super resolution instead, i went online to search for the survey paper
+        - so most of my loss fns i obtain from here
+    - final goal is to come up with a score that measures 2 images
+
+* task
+** TODO find common overlapping area in tiff files
